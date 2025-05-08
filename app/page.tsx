@@ -14,51 +14,45 @@ export default async function Home() {
     },
   })
 
+  // Placeholder categories
+  const categories = [
+    "Interface", "E-commerce", "Finance", "Media", "Communication", "Productivity", "Health", "Travel", "Weather", "Social", "Files", "Security", "Charts", "Maps", "Arrows", "Users", "Devices", "Settings", "Food", "Nature"
+  ];
+
+  // Placeholder testimonials
+  const testimonials = [
+    {
+      name: "F. Designer",
+      text: "The sheer breadth of this icon set is impressive. I appreciate the pixel-perfect detail and the ease of use!",
+    },
+    {
+      name: "Sarah A.",
+      text: "Crafted for design systems. Pikaicons is my go-to for every new project!",
+    },
+    {
+      name: "James Young",
+      text: "Pikaicons is the ideal choice for modern, beautiful, and consistent icons. Highly recommended!",
+    },
+    {
+      name: "Maddy P.",
+      text: "Rich icon library, smooth integration, and amazing support. My favorite icon set!",
+    },
+    {
+      name: "John S.",
+      text: "Pikaicons is the best! All my projects look more professional and polished now.",
+    },
+  ];
+
   return (
     <main className="min-h-screen bg-white">
       {/* Background Icon Grid */}
-      <div className="fixed inset-0 z-0 opacity-10">
+      <div className="fixed inset-0 z-0 opacity-10 pointer-events-none select-none">
         <IconGrid />
       </div>
 
       {/* Main Content */}
       <div className="relative z-10">
-        {/* Header */}
-        <header className="container mx-auto py-6 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-purple-500 rounded-md flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="w-3 h-3"
-              >
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-              </svg>
-            </div>
-            <h1 className="text-xl font-bold">Pikaicons</h1>
-          </div>
-
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/pricing" className="text-gray-700 hover:text-purple-600 transition-colors">
-              Pricing
-            </Link>
-            <Link href="/categories" className="text-gray-700 hover:text-purple-600 transition-colors">
-              Categories
-            </Link>
-            <Link href="/change-log" className="text-gray-700 hover:text-purple-600 transition-colors">
-              Change-log
-            </Link>
-            <Link href="/login" className="text-gray-700 hover:text-purple-600 transition-colors">
-              Login
-            </Link>
-          </nav>
-        </header>
-
+        
         {/* Hero Section */}
         <section className="container mx-auto py-20 text-center max-w-3xl">
           <h2 className="text-5xl md:text-6xl font-bold leading-tight mb-6">High-Quality Icon for Modern UI Design</h2>
@@ -92,24 +86,135 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Featured Icons Section */}
-        <section className="container mx-auto py-16">
-          <h3 className="text-2xl font-bold text-center mb-12">Featured Icons</h3>
-          <FeaturedIcons icons={featuredIcons} />
-          <div className="text-center mt-8">
-            <Link href="/categories">
-              <Button variant="outline" className="border-purple-200 hover:bg-purple-50">
-                View All Categories
-              </Button>
-            </Link>
+        {/* Icon Styles Section */}
+        <section className="container mx-auto py-16 text-center">
+          <h3 className="text-2xl font-bold mb-2">5 icon styles to match any design vision</h3>
+          <p className="text-gray-500 mb-8 max-w-xl mx-auto">Switch between stroke, solid, duotone, and more. Every icon is crafted for clarity and consistency at any size.</p>
+          {/* Placeholder for tabbed icon styles */}
+          <div className="flex justify-center gap-4 mb-6">
+            <Button variant="outline">Stroke</Button>
+            <Button variant="outline">Solid</Button>
+            <Button variant="outline">Colored</Button>
+            <Button variant="outline">Duo Stroke</Button>
+            <Button variant="outline">Duo Solid</Button>
+          </div>
+          <div className="overflow-x-auto">
+            <div className="inline-block min-w-full">
+              <div className="grid grid-cols-8 gap-4">
+                {[...Array(48)].map((_, i) => (
+                  <div key={i} className="flex items-center justify-center p-3 bg-gray-50 rounded-lg">
+                    <img src="/placeholder.svg" alt="icon" className="w-8 h-8" />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Trusted By Section */}
-        <section className="container mx-auto py-10 text-center">
-          <p className="text-gray-500 mb-8">Trusted by 10,000+ designers and brands worldwide</p>
-          <TrustedBy />
+        {/* Feature Highlights Section */}
+        <section className="container mx-auto py-16">
+          <h3 className="text-2xl font-bold text-center mb-8">Elevate your UI with 4000+ precision icons</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[1, 2, 3].map((n) => (
+              <div key={n} className="bg-white rounded-xl shadow p-6 flex flex-col items-center">
+                <img src="/placeholder.svg" alt="feature" className="w-16 h-16 mb-4" />
+                <h4 className="font-semibold text-lg mb-2">Pixel Perfect</h4>
+                <p className="text-gray-500 text-sm text-center">Every icon is designed on a precise grid for crisp rendering at any size.</p>
+              </div>
+            ))}
+          </div>
         </section>
+
+        {/* UI Mockup Section */}
+        <section className="container mx-auto py-16">
+          <h3 className="text-2xl font-bold text-center mb-8">Bring your UI to life with Pikaicons</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[1, 2, 3, 4].map((n) => (
+              <div key={n} className="bg-gray-50 rounded-xl p-6 flex flex-col items-center">
+                <img src="/placeholder.svg" alt="ui mockup" className="w-32 h-24 mb-4" />
+                <p className="text-gray-500 text-sm text-center">UI Example {n}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Crafted with Expertise Section */}
+        <section className="w-full py-20 bg-gradient-to-b from-gray-900 to-gray-800 text-white text-center">
+          <h3 className="text-2xl font-bold mb-8">Crafted with expertise</h3>
+          <div className="flex flex-col items-center justify-center">
+            <img src="/placeholder.svg" alt="crafted" className="w-48 h-48 mb-6" />
+            <p className="max-w-xl mx-auto text-gray-300">Each icon is meticulously designed with pixel-perfect precision, ensuring clarity and consistency across your projects.</p>
+          </div>
+        </section>
+
+        {/* Features Grid Section */}
+        <section className="container mx-auto py-16">
+          <h3 className="text-2xl font-bold text-center mb-8">Icons that grow with your ideas</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            {[1, 2, 3].map((n) => (
+              <div key={n} className="flex flex-col items-center">
+                <img src="/placeholder.svg" alt="feature" className="w-12 h-12 mb-4" />
+                <h4 className="font-semibold mb-2">Feature {n}</h4>
+                <p className="text-gray-500 text-sm">Flexible, scalable, and always up to date. Use icons in any project, any platform.</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Categories Section */}
+        <section className="container mx-auto py-16">
+          <h3 className="text-2xl font-bold text-center mb-8">Explore icon categories for every use case</h3>
+          <div className="flex flex-wrap justify-center gap-2">
+            {categories.map((cat) => (
+              <span key={cat} className="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium cursor-pointer hover:bg-purple-100 transition">{cat}</span>
+            ))}
+          </div>
+        </section>
+
+        {/* Pricing/Updates Section */}
+        <section className="container mx-auto py-16">
+          <h3 className="text-2xl font-bold text-center mb-8">Pay Once, Get Icons for life – Plus free updates!</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[1, 2, 3].map((n) => (
+              <div key={n} className="bg-white rounded-xl shadow p-6 flex flex-col items-center">
+                <img src="/placeholder.svg" alt="pricing" className="w-16 h-16 mb-4" />
+                <h4 className="font-semibold text-lg mb-2">Pricing Option {n}</h4>
+                <p className="text-gray-500 text-sm text-center">One-time payment, unlimited access, and free updates forever.</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section className="container mx-auto py-16">
+          <h3 className="text-2xl font-bold text-center mb-8">The icon library designers recommend</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((t, i) => (
+              <div key={i} className="bg-gray-50 rounded-xl p-6 flex flex-col items-center">
+                <img src="/placeholder-user.jpg" alt={t.name} className="w-12 h-12 rounded-full mb-4" />
+                <p className="text-gray-700 text-base mb-2">"{t.text}"</p>
+                <span className="text-gray-500 text-sm font-medium">{t.name}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Footer Section */}
+        <footer className="w-full py-10 bg-gray-50 border-t mt-16">
+          <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <img src="/placeholder-logo.svg" alt="Pikaicons Logo" className="w-6 h-6" />
+              <span className="font-bold text-lg">Pikaicons</span>
+            </div>
+            <div className="flex flex-wrap gap-4 text-gray-500 text-sm">
+              <Link href="/pricing">Pricing</Link>
+              <Link href="/categories">Categories</Link>
+              <Link href="/change-log">Change-log</Link>
+              <Link href="/login">Login</Link>
+            </div>
+            <div className="text-gray-400 text-xs">© {new Date().getFullYear()} Pikaicons. All rights reserved.</div>
+          </div>
+        </footer>
       </div>
     </main>
   )

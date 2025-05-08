@@ -1,69 +1,96 @@
 import { db } from "@/lib/db"
 import Link from "next/link"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-
-export default async function CategoriesPage() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: { style?: string; category?: string };
+}) {
   const categories = await db.category.findMany({
-    include: {
-      icons: {
-        take: 6,
-        select: {
-          id: true,
-          name: true,
-          svgUrl: true,
-        },
-      },
-      _count: {
-        select: {
-          icons: true,
-        },
-      },
-    },
-  })
-
+    orderBy: { name: "asc" },
+  });
+  const styles = ["stroke", "solid", "colored", "duo-stroke", "duo-solid"];
+  const icons = await db.icon.findMany({
+    where: searchParams.category
+      ? { category: { slug: searchParams.category } }
+      : undefined,
+    include: { category: true },
+  });
+  const filteredIcons = searchParams.style
+    ? icons.filter((icon) => icon.style === searchParams.style)
+    : icons;
   return (
-    <div className="container mx-auto py-16 px-4">
-      <div className="text-center mb-16">
-        <h1 className="text-4xl font-bold mb-4">Icon Categories</h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Browse our extensive collection of icons organized by category.
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {categories.map((category) => (
-          <Card key={category.id} className="hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle>{category.name}</CardTitle>
-              <CardDescription>
-                {category.description || `A collection of ${category._count.icons} icons`}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-3 gap-4 mb-4">
-                {category.icons.map((icon) => (
-                  <div
-                    key={icon.id}
-                    className="aspect-square flex items-center justify-center p-2 bg-gray-50 rounded-md hover:bg-purple-50 transition-colors"
-                  >
-                    <img src={icon.svgUrl || "/placeholder.svg"} alt={icon.name} className="w-6 h-6" />
+    <div className="container mx-auto py-10">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* Sidebar */}
+        <div className="md:col-span-1">
+          <div className="sticky top-4">
+            <h2 className="text-xl font-bold mb-4">Categories</h2>
+            <div className="space-y-2">
+              {categories.map((category) => (
+                <Link
+                  key={category.id}
+                  href={`/categories?category=${category.slug}`}
+                  className={`block px-4 py-2 rounded-lg ${
+                    searchParams.category === category.slug
+                      ? "bg-purple-100 text-purple-700"
+                      : "hover:bg-gray-100"
+                  }`}
+                >
+                  {category.name}
+                </Link>
+              ))}
+            </div>
+            <h2 className="text-xl font-bold mt-8 mb-4">Styles</h2>
+            <div className="space-y-2">
+              {styles.map((style) => (
+                <Link
+                  key={style}
+                  href={`/categories?style=${style}`}
+                  className={`block px-4 py-2 rounded-lg ${
+                    searchParams.style === style
+                      ? "bg-purple-100 text-purple-700"
+                      : "hover:bg-gray-100"
+                  }`}
+                >
+                  {style.charAt(0).toUpperCase() + style.slice(1)}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* Main Content */}
+        <div className="md:col-span-3">
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold">
+              {searchParams.category
+                ? categories.find((c) => c.slug === searchParams.category)?.name
+                : searchParams.style
+                ? `${searchParams.style.charAt(0).toUpperCase() + searchParams.style.slice(1)} Icons`
+                : "All Icons"}
+            </h1>
+            <Button variant="outline">Download All</Button>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {filteredIcons.map((icon) => (
+              <Link key={icon.id} href={`/icons/${icon.id}`} className="group">
+                <div className="flex flex-col items-center p-4 bg-white rounded-lg border border-gray-200 hover:border-purple-500 transition-colors">
+                  <div className="w-12 h-12 mb-2 flex items-center justify-center">
+                    <img
+                      src={`/icons/${icon.id}.svg`}
+                      alt={icon.name}
+                      className="w-8 h-8"
+                    />
                   </div>
-                ))}
-                {Array.from({ length: Math.max(0, 6 - category.icons.length) }).map((_, i) => (
-                  <div
-                    key={`empty-${i}`}
-                    className="aspect-square flex items-center justify-center p-2 bg-gray-50 rounded-md"
-                  />
-                ))}
-              </div>
-              <Link href={`/categories/${category.slug}`}>
-                <Button className="w-full bg-purple-600 hover:bg-purple-700">View All ({category._count.icons})</Button>
+                  <span className="text-sm text-gray-600 group-hover:text-purple-600">
+                    {icon.name}
+                  </span>
+                </div>
               </Link>
-            </CardContent>
-          </Card>
-        ))}
+            ))}
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }
